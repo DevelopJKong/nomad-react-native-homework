@@ -22,3 +22,4 @@ web-build/
 
 # yarn or package
 yarn.lock
+yarn-error.log
