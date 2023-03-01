@@ -1,24 +1,56 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { FontAwesome, Entypo } from "@expo/vector-icons";
 import React from "react";
-import Movie from "../screens/Movie";
-import Tv from "../screens/Tv";
-import Search from "../screens/Search";
+import Coin from "../screens/Coin";
+import News from "../screens/News";
+import Price from "../screens/Price";
 
 const Tab = createBottomTabNavigator();
 
 const Tabs = () => {
   return (
-    <Tab.Navigator screenOptions={{}}>
-      <Tab.Screen
-        name='Movie'
-        component={Movie}
-        options={{
+    <Tab.Navigator
+      screenOptions={{
+        tabBarActiveTintColor: "#fd79a8",
+        tabBarStyle: { backgroundColor: "#2d3436", borderWidth: 0 },
+      }}>
+      <Tab.Group
+        screenOptions={{
           headerTitleStyle: {
-            color: "white",
+            color: "#fd79a8",
           },
-        }}></Tab.Screen>
-      <Tab.Screen name='Tv' component={Tv}></Tab.Screen>
-      <Tab.Screen name='Search' component={Search}></Tab.Screen>
+          headerStyle: {
+            backgroundColor: "#2d3436",
+            elevation: 0,
+            shadowOpacity: 0,
+            borderBottomWidth: 0,
+          },
+        }}>
+        <Tab.Screen
+          name='Coin'
+          component={Coin}
+          options={{
+            tabBarIcon: ({ focused, color, size }: { focused: boolean; color: string; size: number }): React.ReactNode => {
+              return <FontAwesome name='bitcoin' size={size} color={color} />;
+            },
+          }}></Tab.Screen>
+        <Tab.Screen
+          name='News'
+          component={News}
+          options={{
+            tabBarIcon: ({ focused, color, size }: { focused: boolean; color: string; size: number }): React.ReactNode => {
+              return <Entypo name='news' size={size} color={color} />;
+            },
+          }}></Tab.Screen>
+        <Tab.Screen
+          name='Price'
+          component={Price}
+          options={{
+            tabBarIcon: ({ focused, color, size }: { focused: boolean; color: string; size: number }): React.ReactNode => {
+              return <FontAwesome name='money' size={size} color={color} />;
+            },
+          }}></Tab.Screen>
+      </Tab.Group>
     </Tab.Navigator>
   );
 };
