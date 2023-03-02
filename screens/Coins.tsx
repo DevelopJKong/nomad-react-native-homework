@@ -1,8 +1,15 @@
-import { Text } from "react-native";
+import { Dimensions, SafeAreaView, Text } from "react-native";
 import React from "react";
 import { fetchCoins, ICoin } from "../api/request-method";
 import { useQuery } from "react-query";
 import styled from "styled-components/native";
+
+interface ICoinType {
+  id: string;
+  symbol: string;
+}
+
+const { width } = Dimensions.get("window");
 
 export const Container = styled.View`
   flex: 1;
@@ -11,11 +18,13 @@ export const Container = styled.View`
   background-color: #2d3436;
 `;
 
-export const CoinLists = styled.ScrollView.attrs(() => {
+export const CoinLists = styled.FlatList.attrs((_props) => {
   return {
     contentContainerStyle: {
-      justifyContent: "center",
       alignItems: "center",
+      justifyContent: "center",
+      flexDirection: "row",
+      flexWrap: "wrap",
     },
   };
 })`
@@ -31,8 +40,8 @@ export const Coin = styled.View`
 `;
 
 export const CoinBox = styled.View`
-  width: 31%;
-  height: 100px;
+  width: ${width / 3.6}px;
+  height: ${width / 3.6}px;
   justify-content: center;
   align-items: center;
   margin: 4px;
@@ -47,24 +56,36 @@ export const CoinImg = styled.Image`
 
 const Coins = () => {
   const { isLoading, data } = useQuery<ICoin[]>("coins", fetchCoins);
-  console.log(data);
+  // const isLoading = false;
+  // const tmpData = [
+  //   {
+  //     id: "btc-bitcoin",
+  //     symbol: "Bitcoin",
+  //   },
+  //   {
+  //     id: "btc-bitcoin",
+  //     symbol: "Bitcoin",
+  //   },
+  // ];
   return (
     <Container>
       {isLoading ? (
         <Text style={{ color: "white" }}>Loading...</Text>
       ) : (
-        <CoinLists>
-          <Coin>
-            {data?.slice(0, 100).map((coin) => {
+        <SafeAreaView>
+          <CoinLists
+            data={data?.slice(0, 100)} // data?.slice(0, 100)
+            renderItem={({ item, index }: any) => {
+              console.log("⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐", index);
               return (
-                <CoinBox key={coin.id}>
-                  <CoinImg source={{ uri: `https://static.coinpaprika.com/coin/${coin.id}/logo.png` }} />
-                  <Text style={{ color: "white" }}>{coin.symbol.toLowerCase()}</Text>
+                <CoinBox key={index}>
+                  <CoinImg source={{ uri: `https://static.coinpaprika.com/coin/${item.id}/logo.png` }} />
+                  <Text style={{ color: "white" }}>{item.symbol.toLowerCase()}</Text>
                 </CoinBox>
               );
-            })}
-          </Coin>
-        </CoinLists>
+            }}
+          />
+        </SafeAreaView>
       )}
     </Container>
   );

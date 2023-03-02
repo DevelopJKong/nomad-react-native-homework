@@ -1,6 +1,6 @@
 import { Text } from "react-native";
 import React, { useState } from "react";
-import { fetchCoins, ICoin, fetchCoinTickers } from "../api/request-method";
+import { fetchCoins, ICoin, fetchCoinTickers, IPriceData } from "../api/request-method";
 import { useQuery } from "react-query";
 import { Container, CoinLists, CoinImg } from "./Coins";
 import styled from "styled-components/native";
@@ -24,29 +24,37 @@ const CoinName = styled.View``;
 const CoinPrice = styled.View``;
 
 const Prices = () => {
-  const { isLoading, data } = useQuery<ICoin[]>("coins", fetchCoins);
+  const [priceData, setPriceData] = useState<IPriceData[]>([]);
+  const { isLoading, data } = useQuery<ICoin[]>("coins", fetchCoins, {
+    onSuccess: (data) => {
+      data?.slice(0, 100).map((coin) => {
+        fetchCoinTickers(coin?.id).then((res) => {
+          setPriceData((prev) => [...prev, res]);
+        });
+      });
+    },
+  });
   return (
     <Container>
       {isLoading ? (
         <Text style={{ color: "white" }}>Loading...</Text>
       ) : (
-        <CoinLists>
-          <Coin>
-            {data?.slice(0, 100).map((coin) => {
-              return (
-                <CoinBox key={coin.id}>
-                  <CoinName>
-                    <CoinImg source={{ uri: `https://static.coinpaprika.com/coin/${coin.id}/logo.png` }} />
-                    <Text style={{ color: "white" }}>{coin.symbol.toLowerCase()}</Text>
-                  </CoinName>
-                  <CoinPrice>
-                    <Text style={{ color: "white" }}></Text>
-                  </CoinPrice>
-                </CoinBox>
-              );
-            })}
-          </Coin>
-        </CoinLists>
+        <CoinLists
+          data={data}
+          renderItem={({ coin, index }: any) => (
+            <Coin>
+              <CoinBox key={coin.id}>
+                <CoinName>
+                  <CoinImg source={{ uri: `https://static.coinpaprika.com/coin/${coin.id}/logo.png` }} />
+                  <Text style={{ color: "white" }}>{coin.symbol.toLowerCase()}</Text>
+                </CoinName>
+                <CoinPrice>
+                  <Text style={{ color: "white" }}>{priceData[index].quotes.USD.price}</Text>
+                </CoinPrice>
+              </CoinBox>
+            </Coin>
+          )}
+        />
       )}
     </Container>
   );
