@@ -74,7 +74,7 @@ const Coins = () => {
       ) : (
         <SafeAreaView>
           <CoinLists
-            data={data?.slice(0, 100)} // data?.slice(0, 100)
+            data={data?.slice(0, 1)} // data?.slice(0, 100)
             renderItem={({ item, index }: any) => {
               console.log("⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐", index);
               return (
