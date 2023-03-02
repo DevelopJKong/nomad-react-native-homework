@@ -1,9 +1,9 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { FontAwesome, Entypo } from "@expo/vector-icons";
 import React from "react";
-import Coin from "../screens/Coin";
+import Coins from "../screens/Coins";
 import News from "../screens/News";
-import Price from "../screens/Price";
+import Prices from "../screens/Prices";
 
 const Tab = createBottomTabNavigator();
 
@@ -27,8 +27,8 @@ const Tabs = () => {
           },
         }}>
         <Tab.Screen
-          name='Coin'
-          component={Coin}
+          name='Coins'
+          component={Coins}
           options={{
             tabBarIcon: ({ focused, color, size }: { focused: boolean; color: string; size: number }): React.ReactNode => {
               return <FontAwesome name='bitcoin' size={size} color={color} />;
@@ -43,8 +43,8 @@ const Tabs = () => {
             },
           }}></Tab.Screen>
         <Tab.Screen
-          name='Price'
-          component={Price}
+          name='Prices'
+          component={Prices}
           options={{
             tabBarIcon: ({ focused, color, size }: { focused: boolean; color: string; size: number }): React.ReactNode => {
               return <FontAwesome name='money' size={size} color={color} />;
