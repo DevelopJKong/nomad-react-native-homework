@@ -18,18 +18,14 @@ export const Container = styled.View`
   background-color: #2d3436;
 `;
 
-export const CoinLists = styled.FlatList.attrs((_props) => {
-  return {
-    contentContainerStyle: {
-      alignItems: "center",
-      justifyContent: "center",
-      flexDirection: "row",
-      flexWrap: "wrap",
-    },
-  };
-})`
+export const CoinListSafeAreaView = styled.SafeAreaView`
   width: 100%;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
 `;
+
+export const CoinLists = styled.FlatList``;
 
 export const Coin = styled.View`
   width: 100%;
@@ -72,11 +68,10 @@ const Coins = () => {
       {isLoading ? (
         <Text style={{ color: "white" }}>Loading...</Text>
       ) : (
-        <SafeAreaView>
+        <CoinListSafeAreaView>
           <CoinLists
-            data={data?.slice(0, 1)} // data?.slice(0, 100)
+            data={data?.slice(0, 20)} // data?.slice(0, 100)
             renderItem={({ item, index }: any) => {
-              console.log("⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐", index);
               return (
                 <CoinBox key={index}>
                   <CoinImg source={{ uri: `https://static.coinpaprika.com/coin/${item.id}/logo.png` }} />
@@ -84,8 +79,12 @@ const Coins = () => {
                 </CoinBox>
               );
             }}
+            keyExtractor={(item: any) => item.id}
+            numColumns={3}
+            columnWrapperStyle={{ flexWrap: "wrap" }}
+            contentContainerStyle={{ alignItems: "center", justifyContent: "center" }}
           />
-        </SafeAreaView>
+        </CoinListSafeAreaView>
       )}
     </Container>
   );

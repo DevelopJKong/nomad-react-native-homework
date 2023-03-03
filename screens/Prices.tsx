@@ -9,6 +9,8 @@ const Coin = styled.View`
   width: 100%;
   justify-content: center;
   align-items: center;
+  padding-left: 20px;
+  padding-right: 20px;
 `;
 
 const CoinBox = styled.View`
@@ -21,57 +23,66 @@ const CoinBox = styled.View`
 
 const CoinName = styled.View``;
 
-const CoinPrice = styled.View``;
+const CoinPrice = styled.View`
+  justify-content: center;
+  align-items: center;
+`;
 
-const CoinLists = styled.ScrollView.attrs((_props) => {
-  return {
-    contentContainerStyle: {
-      alignItems: "center",
-      justifyContent: "center",
-      flexDirection: "row",
-      flexWrap: "wrap",
-    },
-  };
-})``;
+const CoinListWrapper = styled.SafeAreaView`
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+`;
+
+const CoinLists = styled.FlatList``;
 
 const Prices = () => {
-  const [allLoading, setAllLoading] = useState<boolean>(true);
+  const [isTickerLoading, setIsTickerLoading] = useState<boolean>(true);
   const [priceData, setPriceData] = useState<IPriceData[]>([]);
   const [coinData, setCoinData] = useState<ICoin[]>([]);
-  const { isLoading } = useQuery<ICoin[]>("coins", fetchCoins, {
+  const { isLoading, data } = useQuery<ICoin[]>("coins", fetchCoins, {
     onSuccess: (data) => {
-      setCoinData(data?.slice(0, 10));
-      new Promise(function (resolve, reject) {
-        data?.slice(0, 10).map((coin) => {
-          fetchCoinTickers(coin?.id).then((res) => {
-            resolve(setPriceData((prev) => [...prev, res]));
-          });
+      setCoinData(data?.slice(0, 20));
+      data?.slice(0, 20).map(async (coin) => {
+        await fetchCoinTickers(coin?.id).then((res) => {
+          setPriceData((prev) => [...prev, res]);
+          setIsTickerLoading(false);
         });
       });
-
-      setAllLoading(false);
     },
   });
   return (
     <Container>
-      {isLoading && allLoading ? (
+      {isLoading && isTickerLoading ? (
         <Text style={{ color: "white" }}>Loading...</Text>
       ) : (
-        <CoinLists>
-          {coinData.map((coin, index) => (
-            <Coin key={coin.id}>
-              <CoinBox>
-                <CoinName>
-                  <CoinImg source={{ uri: `https://static.coinpaprika.com/coin/${coin.id}/logo.png` }} />
-                  <Text style={{ color: "white" }}>{coin.symbol.toLowerCase()}</Text>
-                </CoinName>
-                <CoinPrice>
-                  <Text style={{ color: "white" }}>{priceData[index].quotes.USD.price}</Text>
-                </CoinPrice>
-              </CoinBox>
-            </Coin>
-          ))}
-        </CoinLists>
+        <CoinListWrapper>
+          <CoinLists
+            data={data?.slice(0, 20)}
+            renderItem={({ item, index }: any) => (
+              <Coin key={item.id}>
+                <CoinBox>
+                  <CoinName>
+                    {coinData[index] ? (
+                      <CoinImg source={{ uri: `https://static.coinpaprika.com/coin/${coinData[index].id}/logo.png` }} />
+                    ) : (
+                      <Text style={{ color: "white" }}>Loading...</Text>
+                    )}
+                    <Text style={{ color: "white" }}>{coinData[index]?.symbol?.toLowerCase()}</Text>
+                  </CoinName>
+                  <CoinPrice>
+                    <Text style={{ color: "white" }}>
+                      {priceData[index] ? `$${priceData[index].quotes.USD.price.toFixed(2)}` : "Loading..."}
+                    </Text>
+                    <Text style={{ color: `${priceData[index]?.quotes?.USD?.percent_change_12h > 0 ? "green" : "red"}` }}>
+                      {priceData[index] ? `${priceData[index].quotes.USD.percent_change_12h}` : "Loading..."}
+                    </Text>
+                  </CoinPrice>
+                </CoinBox>
+              </Coin>
+            )}
+          />
+        </CoinListWrapper>
       )}
     </Container>
   );
