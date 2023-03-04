@@ -57,10 +57,6 @@ const ReadText = styled.Text<{ isLink: boolean }>`
   color: ${({ theme, isLink }) => (isLink ? theme.textColor.white : theme.textColor.gray)};
 `;
 
-const supportedURL = "https://google.com";
-
-const unsupportedURL = "slack://open?team=123456";
-
 type OpenURLButtonProps = {
   url: string;
   children: React.ReactNode;
