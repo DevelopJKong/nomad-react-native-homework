@@ -1,13 +1,8 @@
-import { Dimensions, SafeAreaView, Text } from "react-native";
+import { Dimensions, Text } from "react-native";
 import React from "react";
 import { fetchCoins, ICoin } from "../api/request-method";
 import { useQuery } from "react-query";
 import styled from "styled-components/native";
-
-interface ICoinType {
-  id: string;
-  symbol: string;
-}
 
 const { width } = Dimensions.get("window");
 
@@ -15,7 +10,7 @@ export const Container = styled.View`
   flex: 1;
   justify-content: center;
   align-items: center;
-  background-color: #2d3436;
+  background-color: ${({ theme }) => theme.bgColor};
 `;
 
 export const CoinListSafeAreaView = styled.SafeAreaView`
@@ -41,7 +36,7 @@ export const CoinBox = styled.View`
   justify-content: center;
   align-items: center;
   margin: 4px;
-  background-color: #343e3e;
+  background-color: ${({ theme }) => theme.contentColor};
 `;
 
 export const CoinImg = styled.Image`
@@ -52,17 +47,7 @@ export const CoinImg = styled.Image`
 
 const Coins = () => {
   const { isLoading, data } = useQuery<ICoin[]>("coins", fetchCoins);
-  // const isLoading = false;
-  // const tmpData = [
-  //   {
-  //     id: "btc-bitcoin",
-  //     symbol: "Bitcoin",
-  //   },
-  //   {
-  //     id: "btc-bitcoin",
-  //     symbol: "Bitcoin",
-  //   },
-  // ];
+
   return (
     <Container>
       {isLoading ? (
@@ -70,7 +55,7 @@ const Coins = () => {
       ) : (
         <CoinListSafeAreaView>
           <CoinLists
-            data={data?.slice(0, 20)} // data?.slice(0, 100)
+            data={data?.slice(0, 2)} // data?.slice(0, 100)
             renderItem={({ item, index }: any) => {
               return (
                 <CoinBox key={index}>

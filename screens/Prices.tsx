@@ -1,4 +1,4 @@
-import { SafeAreaView, Text } from "react-native";
+import { SafeAreaView, Text, View } from "react-native";
 import React, { useState } from "react";
 import { fetchCoins, ICoin, fetchCoinTickers, IPriceData } from "../api/request-method";
 import { useQuery } from "react-query";
@@ -42,8 +42,8 @@ const Prices = () => {
   const [coinData, setCoinData] = useState<ICoin[]>([]);
   const { isLoading, data } = useQuery<ICoin[]>("coins", fetchCoins, {
     onSuccess: (data) => {
-      setCoinData(data?.slice(0, 20));
-      data?.slice(0, 20).map(async (coin) => {
+      setCoinData(data?.slice(0, 2));
+      data?.slice(0, 2).map(async (coin) => {
         await fetchCoinTickers(coin?.id).then((res) => {
           setPriceData((prev) => [...prev, res]);
           setIsTickerLoading(false);
@@ -58,7 +58,7 @@ const Prices = () => {
       ) : (
         <CoinListWrapper>
           <CoinLists
-            data={data?.slice(0, 20)}
+            data={data?.slice(0, 2)}
             renderItem={({ item, index }: any) => (
               <Coin key={item.id}>
                 <CoinBox>
@@ -80,6 +80,9 @@ const Prices = () => {
                   </CoinPrice>
                 </CoinBox>
               </Coin>
+            )}
+            ItemSeparatorComponent={() => (
+              <View style={{ backgroundColor: "rgba(255,255,255,0.25)", height: 1, marginLeft: 10, marginRight: 10 }} />
             )}
           />
         </CoinListWrapper>
