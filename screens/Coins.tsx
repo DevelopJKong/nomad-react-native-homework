@@ -1,8 +1,10 @@
-import { Dimensions, Text } from "react-native";
+import { Dimensions, Text, ActivityIndicator } from "react-native";
 import React from "react";
 import { fetchCoins, ICoin } from "../api/request-method";
 import { useQuery } from "react-query";
 import styled from "styled-components/native";
+import { useNavigation, ParamListBase } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
 const { width } = Dimensions.get("window");
 
@@ -30,7 +32,7 @@ export const Coin = styled.View`
   flex-wrap: wrap;
 `;
 
-export const CoinBox = styled.View`
+export const CoinBox = styled.TouchableOpacity`
   width: ${width / 3.6}px;
   height: ${width / 3.6}px;
   justify-content: center;
@@ -47,18 +49,27 @@ export const CoinImg = styled.Image`
 
 const Coins = () => {
   const { isLoading, data } = useQuery<ICoin[]>("coins", fetchCoins);
-
+  const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
   return (
     <Container>
       {isLoading ? (
-        <Text style={{ color: "white" }}>Loading...</Text>
+        <ActivityIndicator size='large' />
       ) : (
         <CoinListSafeAreaView>
           <CoinLists
             data={data?.slice(0, 2)} // data?.slice(0, 100)
             renderItem={({ item, index }: any) => {
               return (
-                <CoinBox key={index}>
+                <CoinBox
+                  key={index}
+                  onPress={() =>
+                    navigation.navigate("Stacks", {
+                      screen: "CoinDetail",
+                      params: {
+                        coinId: item.id,
+                      },
+                    })
+                  }>
                   <CoinImg source={{ uri: `https://static.coinpaprika.com/coin/${item.id}/logo.png` }} />
                   <Text style={{ color: "white" }}>{item.symbol.toLowerCase()}</Text>
                 </CoinBox>

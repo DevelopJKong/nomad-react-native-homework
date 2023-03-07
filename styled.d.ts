@@ -12,6 +12,8 @@ declare module "styled-components" {
     fontSize: {
       small: string;
       medium: string;
+      mLarge: string;
+      large: string;
     };
     contentColor: string;
   }

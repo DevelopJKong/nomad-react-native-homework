@@ -10,7 +10,9 @@ export const theme: DefaultTheme = {
   },
   fontSize: {
     small: "12px",
-    medium: "14px",
+    medium: "16px",
+    mLarge: "24px",
+    large: "32px",
   },
   contentColor: "#343e3e",
 };
