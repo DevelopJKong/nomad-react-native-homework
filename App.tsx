@@ -26,12 +26,11 @@ export default function App() {
         <SafeAreaView style={{ flex: 1 }}>
           <NavigationContainer>
             <StatusBar style='light' />
-            <NavigationContainer independent={true}>
-              <Stack.Navigator>
-                {/* 네비게이션 이용을 위해 Root에도 스택 감싸주기 */}
-                <Stack.Screen name='Root' component={Root} options={{ headerShown: false }} />
-              </Stack.Navigator>
-            </NavigationContainer>
+
+            <Stack.Navigator>
+              {/* 네비게이션 이용을 위해 Root에도 스택 감싸주기 */}
+              <Stack.Screen name='Root' component={Root} options={{ headerShown: false }} />
+            </Stack.Navigator>
           </NavigationContainer>
         </SafeAreaView>
       </ThemeProvider>
