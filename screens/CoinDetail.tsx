@@ -106,37 +106,37 @@ const CoinDetail = ({ route: { params } }: any) => {
             <CoinDescription>{data?.description}</CoinDescription>
             <LinksWrapper>
               <LinkTitle>Links</LinkTitle>
-              {data?.links?.explorer.map((item: string, index: number) => (
+              {data?.links?.explorer?.map((item: string, index: number) => (
                 <OpenUrlBtn key={index} url={item}>
                   <LinkText>{data?.links?.explorer.length === 1 ? "- " : `${index + 1}.`} News</LinkText>
                   <FontAwesome name='pencil-square-o' size={12} color='white' />
                 </OpenUrlBtn>
               ))}
-              {data?.links?.facebook.map((item: string, index: number) => (
+              {data?.links?.facebook?.map((item: string, index: number) => (
                 <OpenUrlBtn key={index} url={item}>
                   <LinkText>{data?.links?.facebook.length === 1 ? "- " : `${index + 1}.`} Facebook Link</LinkText>
                   <FontAwesome name='pencil-square-o' size={12} color='white' />
                 </OpenUrlBtn>
               ))}
-              {data?.links?.reddit.map((item: string, index: number) => (
+              {data?.links?.reddit?.map((item: string, index: number) => (
                 <OpenUrlBtn key={index} url={item}>
                   <LinkText>{data?.links?.reddit.length === 1 ? "- " : `${index + 1}.`} Reddit Link</LinkText>
                   <FontAwesome name='pencil-square-o' size={12} color='white' />
                 </OpenUrlBtn>
               ))}
-              {data?.links?.source_code.map((item: string, index: number) => (
+              {data?.links?.source_code?.map((item: string, index: number) => (
                 <OpenUrlBtn key={index} url={item}>
                   <LinkText>{data?.links?.source_code.length === 1 ? "- " : `${index + 1}.`} Source Code Link</LinkText>
                   <FontAwesome name='pencil-square-o' size={12} color='white' />
                 </OpenUrlBtn>
               ))}
-              {data?.links?.website.map((item: string, index: number) => (
+              {data?.links?.website?.map((item: string, index: number) => (
                 <OpenUrlBtn key={index} url={item}>
                   <LinkText>{data?.links?.website.length === 1 ? "- " : `${index + 1}.`} Website Link</LinkText>
                   <FontAwesome name='pencil-square-o' size={12} color='white' />
                 </OpenUrlBtn>
               ))}
-              {data?.links?.youtube.map((item: string, index: number) => (
+              {data?.links?.youtube?.map((item: string, index: number) => (
                 <OpenUrlBtn key={index} url={item}>
                   <LinkText>{data?.links?.youtube.length === 1 ? "- " : `${index + 1}.`} Youtube Link</LinkText>
                   <FontAwesome name='pencil-square-o' size={12} color='white' />
