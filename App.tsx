@@ -9,6 +9,7 @@ import { QueryClient, QueryClientProvider } from "react-query";
 import { theme } from "./theme";
 import { ThemeProvider } from "styled-components/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import Main from "./screens/Main";
 
 const Stack = createNativeStackNavigator();
 export default function App() {
@@ -21,7 +22,9 @@ export default function App() {
   }
   return (
     <QueryClientProvider client={queryClient}>
-      <ThemeProvider theme={theme}></ThemeProvider>
+      <ThemeProvider theme={theme}>
+        <Main />
+      </ThemeProvider>
     </QueryClientProvider>
   );
 }
