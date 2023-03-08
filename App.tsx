@@ -9,7 +9,6 @@ import { QueryClient, QueryClientProvider } from "react-query";
 import { theme } from "./theme";
 import { ThemeProvider } from "styled-components/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import Root from "./navigation/Root";
 
 const Stack = createNativeStackNavigator();
 export default function App() {
@@ -22,17 +21,7 @@ export default function App() {
   }
   return (
     <QueryClientProvider client={queryClient}>
-      <ThemeProvider theme={theme}>
-        <SafeAreaView style={{ flex: 1 }}>
-          <NavigationContainer>
-            <StatusBar style='light' />
-            <Stack.Navigator>
-              {/* 네비게이션 이용을 위해 Root에도 스택 감싸주기 */}
-              <Stack.Screen name='Root' component={Root} options={{ headerShown: false }} />
-            </Stack.Navigator>
-          </NavigationContainer>
-        </SafeAreaView>
-      </ThemeProvider>
+      <ThemeProvider theme={theme}></ThemeProvider>
     </QueryClientProvider>
   );
 }
