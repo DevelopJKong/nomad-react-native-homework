@@ -29,12 +29,12 @@ const CoinWrapper = styled.ScrollView`
 
 const CoinTitle = styled.Text`
   font-size: ${({ theme }) => theme.fontSize.large}
-  color: ${({ theme }) => theme.textColor.white};
+  color: ${({ theme }) => theme.color.white};
 `;
 
 const CoinDescription = styled.Text`
   font-size: ${({ theme }) => theme.fontSize.medium}
-  color: ${({ theme }) => theme.textColor.white};
+  color: ${({ theme }) => theme.color.white};
 `;
 
 const LinksWrapper = styled.View`
@@ -42,17 +42,17 @@ const LinksWrapper = styled.View`
 `;
 
 const LinkTitle = styled.Text`
-  color: ${({ theme }) => theme.textColor.white};
+  color: ${({ theme }) => theme.color.white};
 `;
 
 const LinkText = styled.Text`
-  color: ${({ theme }) => theme.textColor.white};
+  color: ${({ theme }) => theme.color.white};
 `;
 
 const OpenUrlBtn = styled(OpenURLButton)`
   padding: 10px;
   border-bottom-width: 1px;
-  border-bottom-color: ${({ theme }) => theme.textColor.gray};
+  border-bottom-color: ${({ theme }) => theme.color.gray};
   justify-content: space-between;
   flex-direction: row;
 `;

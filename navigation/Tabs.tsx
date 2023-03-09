@@ -4,6 +4,8 @@ import React from "react";
 import Coins from "../screens/Coins";
 import News from "../screens/News";
 import Prices from "../screens/Prices";
+import Discover from "../screens/Discover";
+import { theme } from "../theme";
 
 const Tab = createBottomTabNavigator();
 
@@ -11,16 +13,16 @@ const Tabs = () => {
   return (
     <Tab.Navigator
       screenOptions={{
-        tabBarActiveTintColor: "#fd79a8",
-        tabBarStyle: { backgroundColor: "#2d3436", borderWidth: 0 },
+        tabBarActiveTintColor: theme.color.pink,
+        tabBarStyle: { backgroundColor: theme.bgColor, borderWidth: 0 },
       }}>
       <Tab.Group
         screenOptions={{
           headerTitleStyle: {
-            color: "#fd79a8",
+            color: theme.color.pink,
           },
           headerStyle: {
-            backgroundColor: "#2d3436",
+            backgroundColor: theme.bgColor,
             elevation: 0,
             shadowOpacity: 0,
             borderBottomWidth: 0,
@@ -33,7 +35,8 @@ const Tabs = () => {
             tabBarIcon: ({ focused, color, size }: { focused: boolean; color: string; size: number }): React.ReactNode => {
               return <FontAwesome name='bitcoin' size={size} color={color} />;
             },
-          }}></Tab.Screen>
+          }}
+        />
         <Tab.Screen
           name='News'
           component={News}
@@ -41,7 +44,8 @@ const Tabs = () => {
             tabBarIcon: ({ focused, color, size }: { focused: boolean; color: string; size: number }): React.ReactNode => {
               return <Entypo name='news' size={size} color={color} />;
             },
-          }}></Tab.Screen>
+          }}
+        />
         <Tab.Screen
           name='Prices'
           component={Prices}
@@ -49,7 +53,17 @@ const Tabs = () => {
             tabBarIcon: ({ focused, color, size }: { focused: boolean; color: string; size: number }): React.ReactNode => {
               return <FontAwesome name='money' size={size} color={color} />;
             },
-          }}></Tab.Screen>
+          }}
+        />
+        <Tab.Screen
+          name='Discover'
+          component={Discover}
+          options={{
+            tabBarIcon: ({ focused, color, size }: { focused: boolean; color: string; size: number }): React.ReactNode => {
+              return <FontAwesome name='heart-o' size={size} color={color} />;
+            },
+          }}
+        />
       </Tab.Group>
     </Tab.Navigator>
   );

@@ -1,8 +1,8 @@
-import React, { useCallback, useState } from "react";
+import React, { useState } from "react";
 import { useQuery } from "react-query";
 import { INews, fetchNews } from "../api/request-method";
 import styled from "styled-components/native";
-import { ActivityIndicator, Alert, Button, Linking, TouchableOpacity } from "react-native";
+import { ActivityIndicator } from "react-native";
 import OpenURLButton from "../components/OpenURLButton";
 
 const Container = styled.View`
@@ -25,12 +25,12 @@ const NewsBox = styled.View`
 `;
 
 const NewsText = styled.Text`
-  color: ${({ theme }) => theme.textColor.white};
+  color: ${({ theme }) => theme.color.white};
   margin-bottom: 5px;
 `;
 
 const NewsContent = styled.Text`
-  color: ${({ theme }) => theme.textColor.gray};
+  color: ${({ theme }) => theme.color.gray};
   font-size: ${({ theme }) => theme.fontSize.small};
 `;
 const NewsOptionContent = styled.View`
@@ -45,17 +45,17 @@ const NewsOptionFirstBox = styled.View`
 `;
 
 const FirstText = styled.Text`
-  color: ${({ theme }) => theme.textColor.white};
+  color: ${({ theme }) => theme.color.white};
   margin-right: 5px;
 `;
 const SecondText = styled.Text`
-  color: ${({ theme }) => theme.textColor.white};
+  color: ${({ theme }) => theme.color.white};
 `;
 
 const NewsOptionSecondBox = styled.View``;
 
 const ReadText = styled.Text<{ isLink: boolean }>`
-  color: ${({ theme, isLink }) => (isLink ? theme.textColor.white : theme.textColor.gray)};
+  color: ${({ theme, isLink }) => (isLink ? theme.color.white : theme.color.gray)};
 `;
 
 const News = () => {

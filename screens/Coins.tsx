@@ -48,8 +48,21 @@ export const CoinImg = styled.Image`
 `;
 
 const Coins = () => {
-  const { isLoading, data } = useQuery<ICoin[]>("coins", fetchCoins);
+  // const { isLoading, data } = useQuery<ICoin[]>("coins", fetchCoins);
   const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
+
+  const isLoading = false;
+  const data = [
+    {
+      id: "btc-bitcoin",
+      name: "Bitcoin",
+      symbol: "BTC",
+      rank: 1,
+      is_new: false,
+      is_active: true,
+      type: "coin",
+    },
+  ];
   return (
     <Container>
       {isLoading ? (
