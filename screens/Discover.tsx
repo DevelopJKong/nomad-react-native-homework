@@ -1,9 +1,9 @@
-import React from "react";
+import React, { useRef } from "react";
 import styled from "styled-components/native";
 import { FontAwesome } from "@expo/vector-icons";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { theme } from "../theme";
-import { Animated, Image } from "react-native";
+import { Animated, Image, View, PanResponder } from "react-native";
 
 const Container = styled.View`
   flex: 1;
@@ -19,15 +19,14 @@ const CardBox = styled.View`
   justify-content: center;
 `;
 
-const Card = styled.View`
+const Card = styled(Animated.createAnimatedComponent(View))`
   background-color: ${({ theme }) => theme.color.pink};
-  width: 280px;
+  width: 260px;
   height: 350px;
   justify-content: center;
   align-items: center;
   border-radius: 20px;
 `;
-const AnimatedCard = styled(Animated.createAnimatedComponent(Card))``;
 
 const CoinImg = styled.Image`
   width: 100px;
@@ -37,6 +36,7 @@ const CoinName = styled.Text`
   margin-top: 20px;
   color: ${({ theme }) => theme.color.white};
   font-size: ${({ theme }) => theme.fontSize.large};
+  font-weight: bold;
 `;
 
 const CardBtnsBox = styled.View`
@@ -60,6 +60,39 @@ const Btn = styled.TouchableOpacity`
 `;
 
 const Discover = () => {
+  // ! Values
+  const scale = useRef(new Animated.Value(1)).current;
+  const position = useRef(new Animated.Value(0)).current;
+  const rotation = position.interpolate({
+    inputRange: [-250, 0, 250],
+    outputRange: ["-15deg", "0deg", "15deg"],
+  });
+
+  // !  Animations
+  const onPressIn = Animated.spring(scale, { toValue: 0.95, useNativeDriver: true });
+  const onPressOut = Animated.spring(scale, { toValue: 1, useNativeDriver: true });
+  const goCenter = Animated.spring(position, { toValue: 0, useNativeDriver: true });
+
+  const panResponder = useRef(
+    PanResponder.create({
+      onStartShouldSetPanResponder: () => true,
+      onPanResponderMove: (_, { dx }) => {
+        position.setValue(dx);
+      },
+      onPanResponderGrant: () => onPressIn.start(),
+      onPanResponderRelease: (_, { dx }) => {
+        console.log(dx);
+        if (dx < -220) {
+          Animated.spring(position, { toValue: -500, useNativeDriver: true }).start();
+        } else if (dx > 220) {
+          Animated.spring(position, { toValue: 500, useNativeDriver: true }).start();
+        } else {
+          Animated.parallel([onPressOut, goCenter]).start();
+        }
+      },
+    }),
+  ).current;
+
   const onLike = () => {
     console.log("onLike");
   };
@@ -70,10 +103,14 @@ const Discover = () => {
   return (
     <Container>
       <CardBox>
-        <AnimatedCard>
+        <Card
+          {...panResponder.panHandlers}
+          style={{
+            transform: [{ scale }, { translateX: position }, { rotate: rotation }],
+          }}>
           <CoinImg source={{ uri: "https://static.coinpaprika.com/coin/btc-bitcoin/logo.png" }} />
           <CoinName>Bitcoin</CoinName>
-        </AnimatedCard>
+        </Card>
       </CardBox>
       <CardBtnsBox>
         <BtnsWrapper>
