@@ -64,7 +64,6 @@ const Btn = styled.TouchableOpacity`
 `;
 
 const Discover = () => {
-  const [coinData, setCoinData] = useState<ICoin[]>([]);
   const { isLoading, data } = useQuery<ICoin[]>("coins", fetchCoins);
   // ! Values
   const scale = useRef(new Animated.Value(1)).current;
@@ -97,8 +96,20 @@ const Discover = () => {
   const onPressIn = Animated.spring(scale, { toValue: 0.95, useNativeDriver: true });
   const onPressOut = Animated.spring(scale, { toValue: 1, useNativeDriver: true });
   const goCenter = Animated.spring(position, { toValue: 0, useNativeDriver: true });
-  const goLeft = Animated.spring(position, { toValue: -500, tension: 5, useNativeDriver: true });
-  const goRight = Animated.spring(position, { toValue: 500, tension: 5, useNativeDriver: true });
+  const goLeft = Animated.spring(position, {
+    toValue: -500,
+    tension: 5,
+    useNativeDriver: true,
+    restDisplacementThreshold: 100,
+    restSpeedThreshold: 100,
+  });
+  const goRight = Animated.spring(position, {
+    toValue: 500,
+    tension: 5,
+    useNativeDriver: true,
+    restDisplacementThreshold: 100,
+    restSpeedThreshold: 100,
+  });
 
   const panResponder = useRef(
     PanResponder.create({
@@ -108,7 +119,6 @@ const Discover = () => {
       },
       onPanResponderGrant: () => onPressIn.start(),
       onPanResponderRelease: (_, { dx }) => {
-        console.log(dx);
         if (dx < -220) {
           goLeft.start(onDismiss);
         } else if (dx > 220) {
