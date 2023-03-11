@@ -4,8 +4,9 @@ import React from "react";
 import Coins from "../screens/Coins";
 import News from "../screens/News";
 import Prices from "../screens/Prices";
-import Discover from "../screens/Discover";
 import { theme } from "../theme";
+import DiscoverChoice from "../screens/DiscoverChoice";
+import Discover from "../screens/Discover";
 
 const Tab = createBottomTabNavigator();
 
@@ -56,8 +57,8 @@ const Tabs = () => {
           }}
         />
         <Tab.Screen
-          name='Discover'
-          component={Discover}
+          name='DiscoverChoice'
+          component={DiscoverChoice}
           options={{
             tabBarIcon: ({ focused, color, size }: { focused: boolean; color: string; size: number }): React.ReactNode => {
               return <FontAwesome name='heart-o' size={size} color={color} />;

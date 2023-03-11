@@ -7,6 +7,7 @@ export const theme: DefaultTheme = {
     red: "#e74c3c",
     green: "#2ecc71",
     gray: "#bdc3c7",
+    darkGray: "#7f8c8d",
     pink: "#fd79a8",
   },
   fontSize: {
